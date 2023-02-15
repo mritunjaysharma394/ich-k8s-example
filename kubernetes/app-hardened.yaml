@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-node-app-hardened
+  labels:
+    app: k8s-node-app-hardened
+spec:
+  selector:
+    matchLabels:
+      app: k8s-node-app-hardened
+  template:
+    metadata:
+      labels:
+        app: k8s-node-app-hardened
+    spec:
+      # Give the sensors in the instrumented Pod enough time to
+      # finalize and submit the reports back to Slim SaaS.
+      terminationGracePeriodSeconds: 999
+      containers:
+        - name: k8s-node-app-hardened
+          image: ghcr.io/mritunjaysharma394/k8s-node-app:latest-hardened
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 1300
+          # This "elevated" security context is needed only
+          # for the instrumented image. The hardened image
+          # will run with the same security context as the
+          # original image uses.
+          securityContext:
+            runAsUser: 0  # root
+            capabilities:
+              add: ["ALL"]
+            readOnlyRootFilesystem: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-node-app-hardened
+  labels:
+    app: k8s-node-app-hardened
+spec:
+  ports:
+    - name: http-1300
+      port: 1300
+      targetPort: 1300
+  selector:
+    app: k8s-node-app-hardened
+
