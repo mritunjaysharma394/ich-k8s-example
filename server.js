@@ -3,7 +3,7 @@
 const Hapi = require('hapi');
 const Redis = require('redis');
 
-const rclient = Redis.createClient({host: 'my-k8s-app-redis.default.svc.cluster.local', port: 16379});
+const rclient = Redis.createClient({host: 'k8s-node-app-redis.default.svc.cluster.local', port: 16379});
 
 rclient.on('connect', () => 
 {

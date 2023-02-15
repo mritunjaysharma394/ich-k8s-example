@@ -2,17 +2,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: k8s-node-app-hardened-redis
+  name: k8s-node-app-redis
   labels:
-    app: k8s-node-app-hardened-redis
+    app: k8s-node-app-redis
 spec:
   selector:
     matchLabels:
-      app: k8s-node-app-hardened-redis
+      app: k8s-node-app-redis
   template:
     metadata:
       labels:
-        app: k8s-node-app-hardened-redis
+        app: k8s-node-app--redis
     spec:
       containers:
         - name: redis
@@ -23,13 +23,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: k8s-node-app-hardened-redis
+  name: k8s-node-app-redis
   labels:
-    app: k8s-node-app-hardened-redis
+    app: k8s-node-app-redis
 spec:
   ports:
     - name: redis-16379
       port: 16379
       targetPort: 6379
   selector:
-    app: k8s-node-app-hardened-redis
+    app: k8s-node-app-redis

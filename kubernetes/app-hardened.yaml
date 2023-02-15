@@ -2,24 +2,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: k8s-node-app-hardened
+  name: k8s-node-app
   labels:
-    app: k8s-node-app-hardened
+    app: k8s-node-app
 spec:
   selector:
     matchLabels:
-      app: k8s-node-app-hardened
+      app: k8s-node-app
   template:
     metadata:
       labels:
-        app: k8s-node-app-hardened
+        app: k8s-node-app
     spec:
       # Give the sensors in the instrumented Pod enough time to
       # finalize and submit the reports back to Slim SaaS.
       terminationGracePeriodSeconds: 999
       containers:
-        - name: k8s-node-app-hardened
-          image: ghcr.io/mritunjaysharma394/k8s-node-app:latest-hardened
+        - name: k8s-node-app
+          image: ghcr.io/mritunjaysharma394/k8s-node-app:latest-slim-hardened
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 1300
@@ -36,14 +36,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: k8s-node-app-hardened
+  name: k8s-node-app
   labels:
-    app: k8s-node-app-hardened
+    app: k8s-node-app
 spec:
   ports:
     - name: http-1300
       port: 1300
       targetPort: 1300
   selector:
-    app: k8s-node-app-hardened
+    app: k8s-node-app
 
