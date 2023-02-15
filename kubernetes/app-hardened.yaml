@@ -6,6 +6,7 @@ metadata:
   labels:
     app: k8s-node-app
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: k8s-node-app
@@ -27,11 +28,6 @@ spec:
           # for the instrumented image. The hardened image
           # will run with the same security context as the
           # original image uses.
-          securityContext:
-            runAsUser: 0  # root
-            capabilities:
-              add: ["ALL"]
-            readOnlyRootFilesystem: false
 ---
 apiVersion: v1
 kind: Service

@@ -59,7 +59,7 @@ jobs:
         run: |
           docker pull ghcr.io/mritunjaysharma394/k8s-node-app:latest-slim-instrumented
           NX_ID=$(docker inspect --format '{{ index .Config.Labels "slim.nx"}}' ghcr.io/mritunjaysharma394/k8s-node-app:latest-slim-instrumented)
-          ~/.slim/bin/slim harden --id $NX_ID
+          ~/.slim/bin/slim --debug harden --id $NX_ID
   verify-harden:
     needs: [instrument, probe, harden]
     runs-on: ubuntu-latest
