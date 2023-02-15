@@ -36,7 +36,7 @@ jobs:
           kubectl apply -f kubernetes/app-instrumented.yaml
           kubectl apply -f kubernetes/redis.yaml
           sleep 120s
-          kubectl get deployment/k8s-node-app-instrumented
-          kubectl port-forward deployment/k8s-node-app-instrumented 8080:80 &
+          kubectl get deployment/k8s-node-app
+          kubectl port-forward deployment/k8s-node-app 8080:80 &
           curl localhost:1300
           kill %1
