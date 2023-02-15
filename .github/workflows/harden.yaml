@@ -9,7 +9,7 @@ jobs:
         name: Curl and build Slim SaaS CLI
         shell: bash
         run: |
-          curl https://platform.zero.dev.saas.getslim.ai/.service/releases/slim/0.0.7-dev | sh
+          curl https://platform.zero.dev.saas.getslim.ai/.service/releases/slim/0.0.8-dev | sh
           ~/.slim/bin/slim --debug config gen --save --token ${{ secrets.SLIM_TOKEN }}
       -
         name: Instrument the image
@@ -51,7 +51,7 @@ jobs:
         name: Curl and build Slim SaaS CLI
         shell: bash
         run: |
-          curl https://platform.zero.dev.saas.getslim.ai/.service/releases/slim/0.0.7-dev | sh
+          curl https://platform.zero.dev.saas.getslim.ai/.service/releases/slim/0.0.8-dev | sh
           ~/.slim/bin/slim config gen --save --token ${{ secrets.SLIM_TOKEN }}
       -
         name: Harden the instrumented container
