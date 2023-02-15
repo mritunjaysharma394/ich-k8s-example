@@ -34,7 +34,7 @@ jobs:
           echo "current-context:" $(kubectl config current-context)
           echo "environment-kubeconfig:" ${KUBECONFIG}
           kubectl apply -f kubernetes/app-instrumented.yaml
-          kubectl apply -f kubernetes/redis-instrumented.yaml
+          kubectl apply -f kubernetes/redis.yaml
           sleep 120s
           kubectl get deployment/k8s-node-app-instrumented
           kubectl port-forward deployment/k8s-node-app-instrumented 8080:80 &
