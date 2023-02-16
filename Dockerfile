@@ -1,5 +1,7 @@
 FROM node:18
 
+LABEL org.opencontainers.image.source=https://github.com/mritunjaysharma394/ich-k8s-example
+
 WORKDIR /opt/my/service
 
 COPY . /opt/my/service

@@ -12,7 +12,7 @@ on:
 
 env:
   # The image to be build. E.g: ghcr.io/saas-examples-harden-simple-app:9ce...6b
-  IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
+  IMAGE: ghcr.io/mritunjaysharma394/k8s-node-app:latest
 
 jobs:
   build:
