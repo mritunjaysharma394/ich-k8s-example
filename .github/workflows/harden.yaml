@@ -9,14 +9,13 @@ jobs:
         name: Curl and build Slim SaaS CLI
         shell: bash
         run: |
-          curl https://platform.zero.dev.saas.getslim.ai/.service/releases/slim/0.0.8-dev | sh
-          ~/.slim/bin/slim --debug config gen --save --token ${{ secrets.SLIM_TOKEN }} --endpoint platform.zero.dev.saas.getslim.ai
+          curl  https://platform.slim.dev/.service/releases/slim/0.0.8-release | sh
+          ~/.slim/bin/slim --debug config gen --save --token ${{ secrets.SLIM_TOKEN }} 
       -
         name: Instrument the image
         shell: bash
         run: |
-          ~/.slim/bin/slim instrument \
-          --include-path /etc/passwd \
+          ~/.slim/bin/slim --debug instrument \
           --stop-grace-period 999s  \
           ghcr.io/mritunjaysharma394/k8s-node-app:latest
   probe:
@@ -51,8 +50,8 @@ jobs:
         name: Curl and build Slim SaaS CLI
         shell: bash
         run: |
-          curl https://platform.zero.dev.saas.getslim.ai/.service/releases/slim/0.0.8-dev | sh
-          ~/.slim/bin/slim config gen --save --token ${{ secrets.SLIM_TOKEN }} --endpoint platform.zero.dev.saas.getslim.ai
+          curl  https://platform.slim.dev/.service/releases/slim/0.0.8-release | sh
+          ~/.slim/bin/slim --debug config gen --save --token ${{ secrets.SLIM_TOKEN }}
       -
         name: Harden the instrumented container
         shell: bash
