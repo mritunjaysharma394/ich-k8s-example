@@ -68,12 +68,12 @@ The first step involves instrumenting the image. Simply speaking, this means add
 $ slim instrument \
   --include-path /service \
   --stop-grace-period 30s  \
-   ghcr.io/slim-ai/saas-examples-harden-simple-app:latest
+   ghcr.io/mritunjaysharma394/k8s-node-app:latest
 ...
 rknx.2LkF7SjT3M0YbaXAMTjWgGm8zQN  # Instrumentation "attempt ID". Save this: you'll need it later.
 ```
 
-**NOTE**: Make sure the instrumented image, in our case, `ghcr.io/slim-ai/saas-examples-harden-simple-app:latest` is available through the connector.
+**NOTE**: Make sure the instrumented image, in our case, `ghcr.io/mritunjaysharma394/k8s-node-app:latest` is available through the connector.
 
 #### Step 2: Observe (_aka_ "profile" _aka_ "test")  🔎
 
