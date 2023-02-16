@@ -28,8 +28,8 @@ jobs:
   instrument:
     runs-on: ubuntu-latest
     env:
-      INST_IMAGE: ${{ inputs.image }}-slim-inst
-      HARD_IMAGE: ${{ inputs.image }}-slim-hard
+      INST_IMAGE: ${{ inputs.image }}-slim-instrumented
+      HARD_IMAGE: ${{ inputs.image }}-slim-hardened
     outputs:
       # A hardening "attempt" ID (will be needed on the Harden stage).
       inst-id: ${{ steps.instrument.outputs.inst-id }}
