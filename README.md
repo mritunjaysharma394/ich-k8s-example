@@ -68,12 +68,12 @@ The first step involves instrumenting the image. Simply speaking, this means add
 $ slim instrument \
   --include-path /service \
   --stop-grace-period 30s  \
-   ghcr.io/mritunjaysharma394/k8s-node-app:latest
+   ghcr.io/mritunjaysharma394/app:latest
 ...
 rknx.2LkF7SjT3M0YbaXAMTjWgGm8zQN  # Instrumentation "attempt ID". Save this: you'll need it later.
 ```
 
-**NOTE**: Make sure the instrumented image, in our case, `ghcr.io/mritunjaysharma394/k8s-node-app:latest` is available through the connector.
+**NOTE**: Make sure the instrumented image, in our case, `ghcr.io/mritunjaysharma394/app:latest` is available through the connector.
 
 #### Step 2: Observe (_aka_ "profile" _aka_ "test")  🔎
 
@@ -90,10 +90,10 @@ $ kubectl apply -f https://raw.githubusercontent.com/mritunjaysharma394/ich-k8s-
 “Test" the deployment with instrumented image — the Slim process needs the container to be exercised in some way to trigger the Observations. In the case of this simple app, merely running a `curl` request against the running workload will suffice. In reality, integration tests in a test or staging environment are the most common. 
 
 ```sh
-$ kubectl get deployment/k8s-node-app
-$ kubectl port-forward deployment/k8s-node-app 1300:1300 &
+$ kubectl get deployment/app
+$ kubectl port-forward deployment/app 8080:8080 &
 
-$ curl localhost:1300
+$ curl localhost:8080
 
 $ kill %1  # Stops port-forwarding
 ```
@@ -103,7 +103,7 @@ By running curl, we see that the Node web app returns a response. Under the hood
 Finally, Stop the Pod(s) gracefully to make the sensor(s) submit the reports back to Slim SaaS. Failure to stop the Pod(s) gracefully may result in a failed hardening process. 
 
 ```sh
-$ kubectl scale deployment k8s-node-app --replicas 0
+$ kubectl scale deployment app --replicas 0
 ```
 
 #### Step 3: Harden  🔨
@@ -129,13 +129,13 @@ $ kubectl apply -f https://raw.githubusercontent.com/mritunjaysharma394/ich-k8s-
 Verify that the hardened image works by re-running tests. 
 
 ```sh
-$ kubectl get deployment/k8s-node-app
+$ kubectl get deployment/app
 
-$ kubectl get pod -l app=k8s-node-app -o jsonpath={..spec.containers[].image}
+$ kubectl get pod -l app=app -o jsonpath={..spec.containers[].image}
 
-$ kubectl port-forward deployment/k8s-node-app 1300:1300 &
+$ kubectl port-forward deployment/app 8080:8080 &
 
-$ curl localhost:1300
+$ curl localhost:8080
 
 $ kill %1
 ```
@@ -143,7 +143,7 @@ $ kill %1
 Cleanup
 
 ```sh
-$ kubectl delete deployment/k8s-node-app
+$ kubectl delete deployment/app
 ```
 
 Interested in learning more? Check out our [Solutions page](https://www.slim.ai/solutions). 

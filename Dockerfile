@@ -8,6 +8,6 @@ COPY . /opt/my/service
 
 RUN yarn install
 
-EXPOSE 1300
+EXPOSE 8080
 
 ENTRYPOINT ["node", "/opt/my/service/server.js"]

@@ -50,7 +50,6 @@ jobs:
       - uses: ./.github/actions/slimctl
         with:
           token: ${{ secrets.SLIM_TOKEN }}
-          version: "0.0.8-release"
 
       # Build the Instrumented image. When the instrument command is done,
       # the instrumented image will be available in the registry.
@@ -87,23 +86,22 @@ jobs:
           kubectl cluster-info
           kubectl get pods -n kube-system
           echo "current-context:" $(kubectl config current-context)
-          echo "environment-kubeconfig:" ${KUBECONFIG}
+      - name: Deploy the instrumented image
+        run: |
           kubectl apply -f kubernetes/app-instrumented.yaml
           kubectl apply -f kubernetes/redis.yaml
-          sleep 120s
-          kubectl get deployment/k8s-node-app
-          sleep 5s
-          kubectl port-forward deployment/k8s-node-app 1300:1300 &
+          kubectl get deployment/app
+          kubectl port-forward deployment/app 8080:8080 &
       - name: Probe the Instrumented Container
         run: |
           for i in 1 2 3 4 5; do
-            curl -v --fail http://localhost:1300 && echo "OK" && break
+            curl -v --fail http://localhost:8080 && echo "OK" && break
             [ "$i" = "5" ] && echo "FAIL" && exit 1
             sleep 5
           done
       - name: Stop the Pod(s)
         run: |
-          kubectl scale deployment k8s-node-app --replicas 0
+          kubectl scale deployment app --replicas 0
   # The Harden stage: Build a hardened version of the image using the reports
   #                   collected on the previous stage.
   harden:
@@ -116,7 +114,6 @@ jobs:
       - uses: ./.github/actions/slimctl
         with:
           token: ${{ secrets.SLIM_TOKEN }}
-          version: "0.0.8-release"
 
       # The harden command needs to be provided with the ID obtained on
       # the Instrument phase. When the harden command is done, the Hardened
@@ -140,17 +137,17 @@ jobs:
           kubectl get pods -n kube-system
           echo "current-context:" $(kubectl config current-context)
           echo "environment-kubeconfig:" ${KUBECONFIG}
+      - name: Deploy the hardened image
+        run: |
           kubectl apply -f kubernetes/app-hardened.yaml
           kubectl apply -f kubernetes/redis.yaml
-          sleep 120s
-          kubectl describe deployment/k8s-node-app
-          sleep 5s
-          kubectl get pod -l app=k8s-node-app -o jsonpath={..spec.containers[].image}
-          kubectl port-forward deployment/k8s-node-app 1300:1300 &
+          kubectl describe deployment/app
+          kubectl get pod -l app=app -o jsonpath={..spec.containers[].image}
+          kubectl port-forward deployment/app 8080:8080 &
       - name: Test the Hardened Container
         run: |
           for i in 1 2 3 4 5; do
-            curl -v --fail http://localhost:1300 && echo "OK" && break
+            curl -v --fail http://localhost:8080 && echo "OK" && break
             [ "$i" = "5" ] && echo "FAIL" && exit 1
             sleep 5
           done
