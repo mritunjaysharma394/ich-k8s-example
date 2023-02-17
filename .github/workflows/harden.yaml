@@ -91,7 +91,7 @@ jobs:
           kubectl apply -f kubernetes/app-instrumented.yaml
           kubectl apply -f kubernetes/redis.yaml
           kubectl get deployment/app
-          kubectl port-forward deployment/app 8080:8080 &
+          kubectl port-forward --pod-running-timeout 1m deployment/app 8080:8080 &
       - name: Probe the Instrumented Container
         run: |
           for i in 1 2 3 4 5; do
@@ -143,7 +143,7 @@ jobs:
           kubectl apply -f kubernetes/redis.yaml
           kubectl describe deployment/app
           kubectl get pod -l app=app -o jsonpath={..spec.containers[].image}
-          kubectl port-forward deployment/app 8080:8080 &
+          kubectl port-forward --pod-running-timeout 1m deployment/app 8080:8080 &
       - name: Test the Hardened Container
         run: |
           for i in 1 2 3 4 5; do
