@@ -91,7 +91,7 @@ jobs:
           kubectl apply -f kubernetes/app-instrumented.yaml
           kubectl apply -f kubernetes/redis.yaml
           kubectl get deployment/app
-          kubectl wait --for=condition=Ready deployment/app
+          kubectl wait --for=condition=Ready deployment/app --timeout=120s
           kubectl port-forward deployment/app 8080:8080 &
       - name: Probe the Instrumented Container
         run: |
@@ -144,7 +144,7 @@ jobs:
           kubectl apply -f kubernetes/redis.yaml
           kubectl describe deployment/app
           kubectl get pod -l app=app -o jsonpath={..spec.containers[].image}
-          kubectl wait --for=condition=Ready deployment/app
+          kubectl wait --for=condition=Ready deployment/app --timeout=120s
           kubectl port-forward deployment/app 8080:8080 &
       - name: Test the Hardened Container
         run: |
