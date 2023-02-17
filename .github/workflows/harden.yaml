@@ -102,7 +102,7 @@ jobs:
           done
       - name: Stop the Pod(s)
         run: |
-          kubectl scale deployment app --replicas 0
+          kubectl delete -f kubernetes/app-instrumented.yaml
   # The Harden stage: Build a hardened version of the image using the reports
   #                   collected on the previous stage.
   harden:
