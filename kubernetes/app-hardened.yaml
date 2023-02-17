@@ -20,7 +20,7 @@ spec:
       terminationGracePeriodSeconds: 120
       containers:
         - name: app
-          image: ghcr.io/mritunjaysharma394/app:latest-slim-hardened
+          image: ${HARD_IMAGE}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080

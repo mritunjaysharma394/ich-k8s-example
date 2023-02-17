@@ -1,6 +1,6 @@
 FROM node:18
 
-LABEL org.opencontainers.image.source=https://github.com/mritunjaysharma394/ich-k8s-example
+#LABEL org.opencontainers.image.source=https://github.com/slim-ai/saas-examples-harden-kubernetes-deployment
 
 WORKDIR /opt/my/service
 
