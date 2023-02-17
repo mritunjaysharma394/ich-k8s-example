@@ -88,7 +88,7 @@ jobs:
           echo "current-context:" $(kubectl config current-context)
       - name: Deploy the instrumented image
         run: |
-          export INST_IMAGE = ${{ needs.instrument.outputs.inst-image }}
+          export INST_IMAGE=${{ needs.instrument.outputs.inst-image }}
           envsubst <  kubernetes/app-instrumented.yaml | kubectl apply -f -
           kubectl apply -f kubernetes/redis.yaml
           kubectl get deployment/app
@@ -141,7 +141,7 @@ jobs:
           echo "environment-kubeconfig:" ${KUBECONFIG}
       - name: Deploy the hardened image
         run: |
-          export INST_IMAGE = ${{ needs.instrument.outputs.hard-image }}
+          export INST_IMAGE=${{ needs.instrument.outputs.hard-image }}
           envsubst <  kubernetes/app-hardened.yaml | kubectl apply -f -
           kubectl apply -f kubernetes/redis.yaml
           kubectl describe deployment/app
